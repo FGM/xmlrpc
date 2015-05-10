@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Definition of Drupal\xmlrpc\Tests\XmlRpcBasicTest.
+ * Contains \Drupal\xmlrpc\Tests\XmlRpcBasicTest.
  */
 
 namespace Drupal\xmlrpc\Tests;
@@ -17,6 +17,8 @@ use GuzzleHttp\Exception\ClientException;
  */
 class XmlRpcBasicTest extends WebTestBase {
 
+  use XmlRpcTestTrait;
+
   /**
    * Modules to enable.
    *
@@ -27,7 +29,7 @@ class XmlRpcBasicTest extends WebTestBase {
   /**
    * Ensure that a basic XML-RPC call with no parameters works.
    */
-  protected function testListMethods() {
+  public function testListMethods() {
     // Minimum list of methods that should be included.
     $minimum = array(
       'system.multicall',
@@ -38,8 +40,7 @@ class XmlRpcBasicTest extends WebTestBase {
     );
 
     // Invoke XML-RPC call to get list of methods.
-    $url = url('xmlrpc.php', array('absolute' => TRUE));
-    $methods = xmlrpc($url, array('system.listMethods' => array()));
+    $methods = $this->xmlRpcGet(['system.listMethods' => []]);
 
     // Ensure that the minimum methods were found.
     $count = 0;
@@ -55,9 +56,8 @@ class XmlRpcBasicTest extends WebTestBase {
   /**
    * Ensure that system.methodSignature returns an array of signatures.
    */
-  protected function testMethodSignature() {
-    $url = url('xmlrpc.php', array('absolute' => TRUE));
-    $signature = xmlrpc($url, array('system.methodSignature' => array('system.listMethods')));
+  public function testMethodSignature() {
+    $signature = $this->xmlRpcGet(['system.methodSignature' => ['system.listMethods']]);
     $this->assert(is_array($signature) && !empty($signature) && is_array($signature[0]),
       'system.methodSignature returns an array of signature arrays.');
   }
@@ -65,7 +65,7 @@ class XmlRpcBasicTest extends WebTestBase {
   /**
    * Ensure that XML-RPC correctly handles invalid messages when parsing.
    */
-  protected function testInvalidMessageParsing() {
+  public function testInvalidMessageParsing() {
     $invalid_messages = array(
       array(
         'message' => xmlrpc_message(''),
@@ -93,9 +93,7 @@ class XmlRpcBasicTest extends WebTestBase {
   /**
    * Ensure that XML-RPC correctly handles XML Accept headers.
    */
-  protected function testAcceptHeaders() {
-    $url = \Drupal::url('xmlrpc.php', [], ['absolute' => TRUE]);
-
+  public function testAcceptHeaders() {
     $request_header_sets = array(
       // Default.
       'implicit' => array(),
@@ -109,7 +107,7 @@ class XmlRpcBasicTest extends WebTestBase {
 
     foreach ($request_header_sets as $accept => $headers) {
       try {
-        $methods = xmlrpc($url, array('system.listMethods' => array()), $headers);
+        $methods = $this->xmlRpcGet(['system.listMethods' => []], $headers);
         $this->assertTrue(is_array($methods), strtr('@accept accept header is accepted', array('@accept' => $accept)));
       }
       catch (ClientException $e) {
