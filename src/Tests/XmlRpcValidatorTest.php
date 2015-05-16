@@ -15,9 +15,7 @@ use Drupal\simpletest\WebTestBase;
  *
  * @group xmlrpc
  */
-class XmlRpcValidatorTest extends WebTestBase {
-
-  use XmlRpcTestTrait;
+class XmlRpcValidatorTest extends XmlRpcTestBase {
 
   /**
    * Modules to enable.

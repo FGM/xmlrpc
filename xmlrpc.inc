@@ -571,7 +571,7 @@ function _xmlrpc($url, array $args, array $headers = array()) {
     ));
   }
   catch (RequestException $exception) {
-    xmlrpc_error(NULL, $exception->getMessage());
+    xmlrpc_error(-32300, $exception->getMessage());
     return FALSE;
   }
   $message = xmlrpc_message($response->getBody(TRUE));

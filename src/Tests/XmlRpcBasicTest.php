@@ -7,7 +7,6 @@
 
 namespace Drupal\xmlrpc\Tests;
 
-use Drupal\simpletest\WebTestBase;
 use GuzzleHttp\Exception\ClientException;
 
 /**
@@ -15,9 +14,7 @@ use GuzzleHttp\Exception\ClientException;
  *
  * @group xmlrpc
  */
-class XmlRpcBasicTest extends WebTestBase {
-
-  use XmlRpcTestTrait;
+class XmlRpcBasicTest extends XmlRpcTestBase {
 
   /**
    * Modules to enable.
@@ -44,7 +41,7 @@ class XmlRpcBasicTest extends WebTestBase {
 
     // Ensure that the minimum methods were found.
     $count = 0;
-    foreach ($methods as $method) {
+    foreach ((array) $methods as $method) {
       if (in_array($method, $minimum)) {
         $count++;
       }
@@ -114,5 +111,21 @@ class XmlRpcBasicTest extends WebTestBase {
         $this->fail($e);
       }
     }
+  }
+
+  /**
+   * Addresses bug https://www.drupal.org/node/2146833
+   *
+   * @link http://xmlrpc-epi.sourceforge.net/specs/rfc.fault_codes.php
+   */
+  public function testInvalidServer() {
+    $invalid_endpoint = 'http://example.invalid/xmlrpc.php';
+    $result = xmlrpc($invalid_endpoint, ['system.listMethods' => []]);
+    $this->verboseResult($result);
+    $this->assertFalse($result, "Calling an unknown host returns an error condition");
+
+    $this->assertEqual(-32300, xmlrpc_errno(), "Calling an unknown host is reported as a transport error.");
+    $message = xmlrpc_error_msg();
+    $this->assertFalse(empty($message), "Calling an unknown host returns a meaningful error message.");
   }
 }
