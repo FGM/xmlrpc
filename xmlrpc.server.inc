@@ -9,20 +9,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 /**
- * Process an XML-RPC request.
- *
- * @return \Symfony\Component\HttpFoundation\Response
- *   A Response object.
- *
- * @deprecated in Drupal 8.x-dev, will be removed before Drupal 8.0.
- *   Use \Drupal\xmlrpc\Controller\XmlrpcController::php().
- */
-function xmlrpc_server_page() {
-  module_load_include('inc', 'xmlrpc');
-  return xmlrpc_server(\Drupal::moduleHandler()->invokeAll('xmlrpc'));
-}
-
-/**
  * Invokes XML-RPC methods on this server.
  *
  * @param array $callbacks

@@ -7,19 +7,33 @@
 
 namespace Drupal\xmlrpc\Controller;
 
+use Drupal\Core\Controller\ControllerBase;
+
 /**
  * Contains controller methods for the XML-RPC module.
  */
-class XmlrpcController {
+class XmlrpcController extends ControllerBase {
+  /**
+   * The module name, used to load its files and definee its hook name.
+   */
+  const MODULE = 'xmlrpc';
 
   /**
-   * Remove xmlrpc_server_page().
+   * Process an XML-RPC request.
    *
-   * @todo Remove xmlrpc_server_page().
+   * @return \Symfony\Component\HttpFoundation\Response
+   *   A Response object.
    */
   public function php() {
-    module_load_include('server.inc', 'xmlrpc');
-    return xmlrpc_server_page();
+    $module_handler = $this->moduleHandler();
+
+    // xmlrpc.server.inc assumes xmlrpc.inc is already included.
+    $module_handler->loadInclude(static::MODULE, 'inc');
+
+    // Needed to define xmlrpc_server().
+    $module_handler->loadInclude(static::MODULE, 'server.inc');
+
+    return xmlrpc_server($module_handler->invokeAll(static::MODULE));
   }
 
 }
