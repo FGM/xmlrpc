@@ -19,6 +19,7 @@ abstract class XmlRpcTestBase extends WebTestBase {
    * Provides detailed response information if verbose is enabled.
    *
    * @param mixed $result
+   *   A XML-RPC result.
    */
   protected function verboseResult($result) {
     // Skip evaluating the response information if it is not needed.

@@ -47,7 +47,8 @@ function hook_xmlrpc() {
       'drupal.site.ping',
       'drupal_directory_ping',
       array('boolean', 'string', 'string', 'string', 'string', 'string'),
-      t('Handling ping request'))
+      t('Handling ping request'),
+    ),
   );
 }
 
@@ -61,7 +62,7 @@ function hook_xmlrpc() {
  * Note that hook_xmlrpc() supports two distinct and incompatible formats to
  * define a callback, so care must be taken when altering other methods.
  *
- * @param $methods
+ * @param array $methods
  *   An asssociative array of method callback definitions, as returned from
  *   hook_xmlrpc() implementations.
  *

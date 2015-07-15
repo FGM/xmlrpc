@@ -93,13 +93,9 @@ class XmlRpcBasicTest extends XmlRpcTestBase {
   public function testAcceptHeaders() {
     $request_header_sets = array(
       // Default.
-      'implicit' => array(),
-      'text/xml' => array(
-        'Accept' => 'text/xml',
-      ),
-      'application/xml' => array(
-        'Accept' => 'application/xml',
-      )
+      'implicit' => [],
+      'text/xml' => ['Accept' => 'text/xml'],
+      'application/xml' => ['Accept' => 'application/xml'],
     );
 
     foreach ($request_header_sets as $accept => $headers) {
@@ -114,7 +110,7 @@ class XmlRpcBasicTest extends XmlRpcTestBase {
   }
 
   /**
-   * Addresses bug https://www.drupal.org/node/2146833
+   * Addresses bug https://www.drupal.org/node/2146833 .
    *
    * @link http://xmlrpc-epi.sourceforge.net/specs/rfc.fault_codes.php
    */
@@ -128,4 +124,5 @@ class XmlRpcBasicTest extends XmlRpcTestBase {
     $message = xmlrpc_error_msg();
     $this->assertFalse(empty($message), "Calling an unknown host returns a meaningful error message.");
   }
+
 }

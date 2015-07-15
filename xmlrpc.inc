@@ -8,7 +8,7 @@
  * Version 1.7 (beta) - Simon Willison, 23rd May 2005
  * Site:   http://scripts.incutio.com/xmlrpc/
  * Manual: http://scripts.incutio.com/xmlrpc/manual.php
- * This version is made available under the GNU GPL License
+ * This version is made available under the GNU GPL License.
  */
 
 use Drupal\Component\Utility\SafeMarkup;
@@ -20,8 +20,8 @@ use GuzzleHttp\Exception\RequestException;
  * @param mixed $data
  *   The data structure.
  * @param string|bool $type
- *   (optional) Type to assign to $data. Evaluated types are 'struct' and 'array'.
- *   FALSE will omit type casting.
+ *   (optional) Type to assign to $data. Evaluated types are 'struct' and
+ *   'array'. FALSE will omit type casting.
  *
  * @return object
  *   An XML-RPC data object containing the input $data.
@@ -64,14 +64,15 @@ function xmlrpc_value_calculate_type($xmlrpc_value) {
   if (is_bool($xmlrpc_value->data)) {
     return 'boolean';
   }
-  if (is_double($xmlrpc_value->data)) {
+  if (is_float($xmlrpc_value->data)) {
     return 'double';
   }
   if (is_int($xmlrpc_value->data)) {
     return 'int';
   }
   if (is_array($xmlrpc_value->data)) {
-    // empty or integer-indexed arrays are 'array', string-indexed arrays 'struct'
+    // Empty or integer-indexed arrays are 'array',
+    // string-indexed arrays 'struct'
     return empty($xmlrpc_value->data) || range(0, count($xmlrpc_value->data) - 1) === array_keys($xmlrpc_value->data) ? 'array' : 'struct';
   }
   if (is_object($xmlrpc_value->data)) {
@@ -84,7 +85,7 @@ function xmlrpc_value_calculate_type($xmlrpc_value) {
     $xmlrpc_value->data = get_object_vars($xmlrpc_value->data);
     return 'struct';
   }
-  // default
+  // default.
   return 'string';
 }
 
@@ -155,9 +156,9 @@ function xmlrpc_message($message) {
   $xmlrpc_message = new stdClass();
   // The stack used to keep track of the current array/struct
   $xmlrpc_message->array_structs = array();
-  // The stack used to keep track of if things are structs or array
+  // The stack used to keep track of if things are structs or array.
   $xmlrpc_message->array_structs_types = array();
-  // A stack as well
+  // A stack as well.
   $xmlrpc_message->current_struct_name = array();
   $xmlrpc_message->message = $message;
   return $xmlrpc_message;
@@ -234,16 +235,16 @@ function xmlrpc_message_get() {
 /**
  * Handles opening tags for XML parsing in xmlrpc_message_parse().
  *
- * @see xmlrpc_message_parse()
- *
  * @param resource $parser
  *   A resource handle for the XML parser.
  * @param string $tag
  *   A XML element name.
  * @param array $attribs
  *   Required by xml_set_element_handler() signature, but not used.
+ *
+ * @see xmlrpc_message_parse()
  */
-function xmlrpc_message_tag_open($parser, $tag, $attribs) {
+function xmlrpc_message_tag_open($parser, $tag, array $attribs) {
   $xmlrpc_message = xmlrpc_message_get();
   $xmlrpc_message->current_tag_contents = '';
   $xmlrpc_message->last_open = $tag;
@@ -254,7 +255,7 @@ function xmlrpc_message_tag_open($parser, $tag, $attribs) {
       $xmlrpc_message->messagetype = $tag;
       break;
 
-    // Deal with stacks of arrays and structs
+    // Deal with stacks of arrays and structs.
     case 'data':
       $xmlrpc_message->array_structs_types[] = 'array';
       $xmlrpc_message->array_structs[] = array();
@@ -271,13 +272,13 @@ function xmlrpc_message_tag_open($parser, $tag, $attribs) {
 /**
  * Handles character data for XML parsing in xmlrpc_message_parse().
  *
- * @see xmlrpc_message_parse()
- *
  * @param resource $parser
  *   A resource handle for the XML parser. Required by the signature of
  *   xml_set_character_data_handler() but not used.
  * @param string $cdata
  *   The CDATA to parse.
+ *
+ * @see xmlrpc_message_parse()
  */
 function xmlrpc_message_cdata($parser, $cdata) {
   $xmlrpc_message = xmlrpc_message_get();
@@ -300,12 +301,12 @@ function xmlrpc_message_tag_close($parser, $tag) {
   switch ($tag) {
     case 'int':
     case 'i4':
-      $value = (int)trim($xmlrpc_message->current_tag_contents);
+      $value = (int) trim($xmlrpc_message->current_tag_contents);
       $value_flag = TRUE;
       break;
 
     case 'double':
-      $value = (double)trim($xmlrpc_message->current_tag_contents);
+      $value = (double) trim($xmlrpc_message->current_tag_contents);
       $value_flag = TRUE;
       break;
 
@@ -322,7 +323,7 @@ function xmlrpc_message_tag_close($parser, $tag) {
 
     case 'value':
       // If no type is indicated, the type is string
-      // We take special care for empty values
+      // We take special care for empty values.
       if (trim($xmlrpc_message->current_tag_contents) != '' || (isset($xmlrpc_message->last_open) && ($xmlrpc_message->last_open == 'value'))) {
         $value = (string) $xmlrpc_message->current_tag_contents;
         $value_flag = TRUE;
@@ -331,7 +332,7 @@ function xmlrpc_message_tag_close($parser, $tag) {
       break;
 
     case 'boolean':
-      $value = (boolean)trim($xmlrpc_message->current_tag_contents);
+      $value = (boolean) trim($xmlrpc_message->current_tag_contents);
       $value_flag = TRUE;
       break;
 
@@ -340,7 +341,7 @@ function xmlrpc_message_tag_close($parser, $tag) {
       $value_flag = TRUE;
       break;
 
-    // Deal with stacks of arrays and structs
+    // Deal with stacks of arrays and structs.
     case 'data':
     case 'struct':
       $value = array_pop($xmlrpc_message->array_structs);
@@ -362,18 +363,18 @@ function xmlrpc_message_tag_close($parser, $tag) {
   }
   if ($value_flag) {
     if (count($xmlrpc_message->array_structs) > 0) {
-      // Add value to struct or array
+      // Add value to struct or array.
       if ($xmlrpc_message->array_structs_types[count($xmlrpc_message->array_structs_types) - 1] == 'struct') {
-        // Add to struct
+        // Add to struct.
         $xmlrpc_message->array_structs[count($xmlrpc_message->array_structs) - 1][$xmlrpc_message->current_struct_name[count($xmlrpc_message->current_struct_name) - 1]] = $value;
       }
       else {
-        // Add to array
+        // Add to array.
         $xmlrpc_message->array_structs[count($xmlrpc_message->array_structs) - 1][] = $value;
       }
     }
     else {
-      // Just add as a parameter
+      // Just add as a parameter.
       $xmlrpc_message->params[] = $value;
     }
   }
@@ -389,7 +390,7 @@ function xmlrpc_message_tag_close($parser, $tag) {
  * @param string $method
  *   The name of the method to be called.
  * @param array $args
- *   An array of parameters to send with the method. May be empty, but not NULL.
+ *   An array of parameters to send with the method. May be empty but not NULL.
  *
  * @return object
  *   An XML-RPC object representing the request.
@@ -447,13 +448,13 @@ function xmlrpc_error($code = NULL, $message = NULL, $reset = FALSE) {
 /**
  * Converts an XML-RPC error object into XML.
  *
- * @see xmlrpc_error()
- *
  * @param object $xmlrpc_error
  *   The XML-RPC error object.
  *
  * @return string
  *   An XML representation of the error as an XML methodResponse.
+ *
+ * @see xmlrpc_error()
  */
 function xmlrpc_error_get_xml($xmlrpc_error) {
   return <<<EOD
@@ -489,7 +490,7 @@ EOD;
 function xmlrpc_date($time) {
   $xmlrpc_date = new stdClass();
   $xmlrpc_date->is_date = TRUE;
-  // $time can be a PHP timestamp or an ISO one
+  // $time can be a PHP timestamp or an ISO one.
   if (is_numeric($time)) {
     $xmlrpc_date->year = gmdate('Y', $time);
     $xmlrpc_date->month = gmdate('m', $time);
@@ -515,13 +516,13 @@ function xmlrpc_date($time) {
 /**
  * Converts an XML-RPC date-time object into XML.
  *
- * @see xmlrpc_date()
- *
  * @param object $xmlrpc_date
  *   The XML-RPC date-time object.
  *
  * @return string
  *   An XML representation of the date/time as XML.
+ *
+ * @see xmlrpc_date()
  */
 function xmlrpc_date_get_xml($xmlrpc_date) {
   return '<dateTime.iso8601>' . $xmlrpc_date->year . $xmlrpc_date->month . $xmlrpc_date->day . 'T' . $xmlrpc_date->hour . ':' . $xmlrpc_date->minute . ':' . $xmlrpc_date->second . '</dateTime.iso8601>';
@@ -546,13 +547,13 @@ function xmlrpc_base64($data) {
 /**
  * Converts an XML-RPC base 64 object into XML.
  *
- * @see xmlrpc_base64()
- *
  * @param object $xmlrpc_base64
  *   The XML-RPC base 64 object.
  *
  * @return string
  *   An XML representation of the base 64 data as XML.
+ *
+ * @see xmlrpc_base64()
  */
 function xmlrpc_base64_get_xml($xmlrpc_base64) {
   return '<base64>' . base64_encode($xmlrpc_base64->data) . '</base64>';
@@ -562,8 +563,7 @@ function xmlrpc_base64_get_xml($xmlrpc_base64) {
  * Performs one or more XML-RPC requests.
  *
  * @param string $url
- *   An absolute URL of the XML-RPC endpoint, e.g.,
- *   http://example.com/xmlrpc.php
+ *   Absolute URL of the XML-RPC endpoint, e.g. http://example.com/xmlrpc.php .
  * @param array $args
  *   An associative array whose keys are the methods to call and whose values
  *   are the arguments to pass to the respective method. If multiple methods
@@ -607,9 +607,9 @@ function _xmlrpc($url, array $args, array $headers = array()) {
     return FALSE;
   }
   $message = xmlrpc_message($response->getBody(TRUE));
-  // Now parse what we've got back
+  // Now parse what we've got back.
   if (!xmlrpc_message_parse($message)) {
-    // XML error
+    // XML error.
     xmlrpc_error(-32700, t('Parse error. Not well formed'));
     return FALSE;
   }

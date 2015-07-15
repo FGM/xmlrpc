@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Contains \Drupal\xmlrpc_example\Controller\XmlRpcExampleController
+ * Contains \Drupal\xmlrpc_example\Controller\XmlRpcExampleController.
  */
 
 namespace Drupal\xmlrpc_example\Controller;

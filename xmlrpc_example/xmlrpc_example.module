@@ -249,9 +249,9 @@ function xmlrpc_example_xmlrpc_alter(&$methods) {
  * limits defined by the server and will always return value of the operation.
  *
  * @param int $num1
- *   First number
+ *   First number.
  * @param int $num2
- *   Second Number
+ *   Second number.
  *
  * @return int
  *   The sum of the arguments
@@ -266,9 +266,9 @@ function _xmlrpc_example_alter_add($num1, $num2) {
  * This is the replacement callback for xmlrpc_example.subtract xmlrpc method.
  *
  * @param int $num1
- *   First number
+ *   First number.
  * @param int $num2
- *   Second Number
+ *   Second number.
  *
  * @return int
  *   The difference of the two arguments

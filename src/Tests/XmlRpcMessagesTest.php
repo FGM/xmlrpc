@@ -40,7 +40,8 @@ class XmlRpcMessagesTest extends XmlRpcTestBase {
    * Ensure that hook_xmlrpc_alter() can hide even builtin methods.
    */
   public function testAlterListMethods() {
-    // Ensure xmlrpc_test.alter() is disabled and retrieve regular list of methods.
+    // Ensure xmlrpc_test.alter() is disabled and retrieve regular list of
+    // methods.
     \Drupal::state()->set('xmlrpc_test.alter', FALSE);
     $methods1 = $this->xmlRpcGet(['system.listMethods' => []]);
 

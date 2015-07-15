@@ -13,6 +13,8 @@ namespace Drupal\xmlrpc\Controller;
 class XmlrpcController {
 
   /**
+   * Remove xmlrpc_server_page().
+   *
    * @todo Remove xmlrpc_server_page().
    */
   public function php() {
