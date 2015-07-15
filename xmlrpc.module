@@ -39,7 +39,7 @@ function xmlrpc_help($route_name, RouteMatchInterface $route_match) {
  * @param array $headers
  *   (optional) An array of headers to pass along.
  *
- * @return
+ * @return mixed
  *   For one request:
  *     Either the return value of the method on success, or FALSE.
  *     If FALSE is returned, see xmlrpc_errno() and xmlrpc_error_msg().

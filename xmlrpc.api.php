@@ -11,7 +11,7 @@
  * This hook lets a module register callback functions to be called when
  * particular XML-RPC methods are invoked by a client.
  *
- * @return
+ * @return array
  *   An array which maps XML-RPC methods to Drupal functions. Each array
  *   element is either a pair of method => function or an array with four
  *   entries:
@@ -68,7 +68,7 @@ function hook_xmlrpc() {
  * @see hook_xmlrpc()
  * @see xmlrpc_server()
  */
-function hook_xmlrpc_alter(&$methods) {
+function hook_xmlrpc_alter(array &$methods) {
   // Directly change a simple method.
   $methods['drupal.login'] = 'mymodule_login';
 

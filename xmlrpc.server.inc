@@ -33,7 +33,7 @@ function xmlrpc_server_page() {
  * @return \Symfony\Component\HttpFoundation\Response
  *   A Response object.
  */
-function xmlrpc_server($callbacks) {
+function xmlrpc_server(array $callbacks) {
   $xmlrpc_server = new stdClass();
   // Define built-in XML-RPC method names
   $defaults = array(
@@ -123,9 +123,9 @@ function xmlrpc_server($callbacks) {
 /**
  * Throws an XML-RPC error.
  *
- * @param $error
+ * @param int|object $error
  *   An error object or integer error code.
- * @param $message
+ * @param false|string $message
  *   (optional) The description of the error. Used only if an integer error
  *   code was passed in.
  *
@@ -160,11 +160,11 @@ function xmlrpc_server_output($xml) {
 /**
  * Stores a copy of an XML-RPC request temporarily.
  *
- * @param object $xmlrpc_server
+ * @param null|object $xmlrpc_server
  *   (optional) Request object created by xmlrpc_server(). Omit to leave the
  *   previous server object saved.
  *
- * @return
+ * @return null|object
  *   The latest stored request.
  *
  * @see xmlrpc_server_get()
@@ -195,25 +195,27 @@ function xmlrpc_server_get() {
  * @param object $xmlrpc_server
  *   Object containing information about this XML-RPC server, the methods it
  *   provides, their signatures, etc.
- * @param string $methodname
+ * @param string $method_name
  *   The external XML-RPC method name; e.g., 'system.methodHelp'.
  * @param array $args
  *   Array containing any parameters that are to be sent along with the request.
  *
- * @return
+ * @return mixed
  *   The results of the call.
  */
-function xmlrpc_server_call($xmlrpc_server, $methodname, $args) {
+function xmlrpc_server_call($xmlrpc_server, $method_name, array $args) {
   // Make sure parameters are in an array
   if ($args && !is_array($args)) {
     $args = array($args);
   }
   // Has this method been mapped to a Drupal function by us or by modules?
-  if (!isset($xmlrpc_server->callbacks[$methodname])) {
-    return xmlrpc_error(-32601, t('Server error. Requested method @methodname not specified.', array("@methodname" => $xmlrpc_server->message->methodname)));
+  if (!isset($xmlrpc_server->callbacks[$method_name])) {
+    return xmlrpc_error(-32601, t('Server error. Requested method @method_name not specified.', [
+      "@method_name" => $xmlrpc_server->message->methodname,
+    ]));
   }
-  $method = $xmlrpc_server->callbacks[$methodname];
-  $signature = $xmlrpc_server->signatures[$methodname];
+  $method = $xmlrpc_server->callbacks[$method_name];
+  $signature = $xmlrpc_server->signatures[$method_name];
 
   // If the method has a signature, validate the request against the signature
   if (is_array($signature)) {
@@ -278,22 +280,22 @@ function xmlrpc_server_call($xmlrpc_server, $methodname, $args) {
 /**
  * Dispatches multiple XML-RPC requests.
  *
- * @param array $methodcalls
+ * @param array $method_calls
  *   An array of XML-RPC requests to make. Each request is an array with the
  *   following elements:
  *   - methodName: Name of the method to invoke.
  *   - params: Parameters to pass to the method.
  *
- * @return
+ * @return array
  *   An array of the results of each request.
  *
  * @see xmlrpc_server_call()
  */
-function xmlrpc_server_multicall($methodcalls) {
+function xmlrpc_server_multicall($method_calls) {
   // See http://www.xmlrpc.com/discuss/msgReader$1208
   $return = array();
   $xmlrpc_server = xmlrpc_server_get();
-  foreach ($methodcalls as $call) {
+  foreach ($method_calls as $call) {
     $ok = TRUE;
     if (!isset($call['methodName']) || !isset($call['params'])) {
       $result = xmlrpc_error(3, t('Invalid syntax for system.multicall.'));
