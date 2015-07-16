@@ -30,7 +30,7 @@ trait XmlRpcExampleTrait {
    */
   public function getEndpoint() {
     if (!isset($this->endPoint)) {
-      $uri = Url::fromUri($GLOBALS['base_url'] . '/xmlrpc.php');
+      $uri = Url::fromUri($GLOBALS['base_url'] . '/xmlrpc');
       $this->endPoint = $uri->toUriString();
     }
 

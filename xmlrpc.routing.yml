@@ -1,5 +1,5 @@
-xmlrpc.php:
-  path: '/xmlrpc.php'
+xmlrpc:
+  path: '/xmlrpc'
   defaults:
     _controller: '\Drupal\xmlrpc\Controller\XmlrpcController::php'
   requirements:

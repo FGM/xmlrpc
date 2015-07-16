@@ -8,11 +8,10 @@ namespace Drupal\xmlrpc\Tests;
 
 use Drupal\Component\Utility\SafeMarkup;
 use Drupal\simpletest\WebTestBase;
+use Symfony\Component\Routing\Generator\UrlGenerator;
 
 /**
  * A base class simplifying xmlrpc() calls testing.
- *
- * @group xmlrpc
  */
 abstract class XmlRpcTestBase extends WebTestBase {
 
@@ -55,7 +54,8 @@ abstract class XmlRpcTestBase extends WebTestBase {
    * @see xmlrpc()
    */
   protected function xmlRpcGet(array $args, array $headers = []) {
-    $url = \Drupal::url('xmlrpc.php', [], ['absolute' => TRUE]);
+
+    $url = \Drupal::url('xmlrpc', [], ['absolute' => TRUE]);
 
     $result = xmlrpc($url, $args, $headers);
     $this->verboseResult($result);
