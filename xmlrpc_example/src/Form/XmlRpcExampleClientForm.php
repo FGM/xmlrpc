@@ -43,20 +43,20 @@ class XmlRpcExampleClientForm extends FormBase {
     $config = \Drupal::config('xmlrpc_example.server');
 
     $form['explanation'] = array(
-      '#markup' => '<div>' . t('This example demonstrates how to make XML-RPC calls with Drupal. <br />The "Request methods" button makes a request to the server and asks for the available list of methods, as a service discovery request. <br/>The "Add integers" and "Subtract integers" use the xmlrpc() function to act as a client, calling the XML-RPC server defined in this same example for some defined methods.<br />An XML-RPC error will result if the result in the addition or subtraction requested is out of bounds defined by the server. These error numbers are defined by the server. <br />The "Add and Subtract" button performs a multicall operation on the XML-RPC server: several requests in a single XML-RPC call.<br />') . '</div>',
+      '#markup' => '<div>' . $this->t('This example demonstrates how to make XML-RPC calls with Drupal. <br />The "Request methods" button makes a request to the server and asks for the available list of methods, as a service discovery request. <br/>The "Add integers" and "Subtract integers" use the xmlrpc() function to act as a client, calling the XML-RPC server defined in this same example for some defined methods.<br />An XML-RPC error will result if the result in the addition or subtraction requested is out of bounds defined by the server. These error numbers are defined by the server. <br />The "Add and Subtract" button performs a multicall operation on the XML-RPC server: several requests in a single XML-RPC call.<br />') . '</div>',
     );
     // We are going to call add and subtract methods, and
     // they work with integer values.
     $form['num1'] = array(
       '#type' => 'textfield',
-      '#title' => t('Enter an integer'),
+      '#title' => $this->t('Enter an integer'),
       '#default_value' => 2,
       '#size' => 5,
       '#required' => TRUE,
     );
     $form['num2'] = array(
       '#type' => 'textfield',
-      '#title' => t('Enter a second integer'),
+      '#title' => $this->t('Enter a second integer'),
       '#default_value' => 2,
       '#size' => 5,
       '#required' => TRUE,
@@ -65,32 +65,32 @@ class XmlRpcExampleClientForm extends FormBase {
     // This button submits a XML-RPC call to the system.listMethods method.
     $form['information'] = array(
       '#type' => 'submit',
-      '#value' => t('Request methods'),
+      '#value' => $this->t('Request methods'),
       '#submit' => array(array($this, 'submitInformation')),
     );
     // This button submits a XML-RPC call to the xmlrpc_example.add method.
     $form['add'] = array(
       '#type' => 'submit',
-      '#value' => t('Add the integers'),
+      '#value' => $this->t('Add the integers'),
       '#submit' => array(array($this, 'submitAdd')),
     );
     // This button submits a XML-RPC call to the xmlrpc_example.subtract method.
     $form['subtract'] = array(
       '#type' => 'submit',
-      '#value' => t('Subtract the integers'),
+      '#value' => $this->t('Subtract the integers'),
       '#submit' => array(array($this, 'submitSubstract')),
     );
     // This button submits a XML-RPC call to the system.multicall method.
     $form['add_subtract'] = array(
       '#type' => 'submit',
-      '#value' => t('Add and Subtract'),
+      '#value' => $this->t('Add and Subtract'),
       '#submit' => array(array($this, 'submitAddSubstract')),
     );
 
     if ($config->get('alter_enabled')) {
       $form['overridden'] = array(
         '#type' => 'markup',
-        '#markup' => '<div><strong>' . t('Just a note of warning: The <a href="!link">alter form</a> has been used to disable the limits, so you may want to turn that off if you do not want it.', array(
+        '#markup' => '<div><strong>' . $this->t('Just a note of warning: The <a href="!link">alter form</a> has been used to disable the limits, so you may want to turn that off if you do not want it.', array(
           '!link' => $this->url('xmlrpc_example.alter'),
         )) . '</strong></div>',
       );
@@ -138,14 +138,14 @@ class XmlRpcExampleClientForm extends FormBase {
     $result = xmlrpc($server, $options);
     if ($result === FALSE) {
       drupal_set_message(
-        t('Error return from xmlrpc(): Error: @errno, Message: @message',
+        $this->t('Error return from xmlrpc(): Error: @errno, Message: @message',
           array('@errno' => xmlrpc_errno(), '@message' => xmlrpc_error_msg())),
         'error'
       );
     }
     else {
       drupal_set_message(
-        t('The XML-RPC server returned this response: <pre>@response</pre>',
+        $this->t('The XML-RPC server returned this response: <pre>@response</pre>',
           array('@response' => print_r($result, TRUE)))
       );
     }
@@ -183,15 +183,18 @@ class XmlRpcExampleClientForm extends FormBase {
     $result = xmlrpc($server, $options);
     if ($result === FALSE) {
       drupal_set_message(
-        t('Error return from xmlrpc(): Error: @errno, Message: @message',
-          array('@errno' => xmlrpc_errno(), '@message' => xmlrpc_error_msg())),
+        $this->t('Error return from xmlrpc(): Error: @errno, Message: @message', array(
+          '@errno' => xmlrpc_errno(),
+          '@message' => xmlrpc_error_msg(),
+        )),
         'error'
       );
     }
     else {
       drupal_set_message(
-        t('The XML-RPC server returned this response: @response',
-          array('@response' => print_r($result, TRUE)))
+        $this->t('The XML-RPC server returned this response: @response', array(
+          '@response' => print_r($result, TRUE),
+        ))
       );
     }
   }
@@ -224,14 +227,14 @@ class XmlRpcExampleClientForm extends FormBase {
     $result = xmlrpc($server, $options);
     if ($result === FALSE) {
       drupal_set_message(
-        t('Error return from xmlrpc(): Error: @errno, Message: @message',
+        $this->t('Error return from xmlrpc(): Error: @errno, Message: @message',
            array('@errno' => xmlrpc_errno(), '@message' => xmlrpc_error_msg())),
         'error'
       );
     }
     else {
       drupal_set_message(
-        t('The XML-RPC server returned this response: @response',
+        $this->t('The XML-RPC server returned this response: @response',
           array('@response' => print_r($result, TRUE)))
       );
     }
@@ -287,15 +290,16 @@ class XmlRpcExampleClientForm extends FormBase {
 
     if ($result === FALSE) {
       drupal_set_message(
-        t('Error return from xmlrpc(): Error: @errno, Message: @message',
-          array('@errno' => xmlrpc_errno(), '@message' => xmlrpc_error_msg()))
-      );
+        $this->t('Error return from xmlrpc(): Error: @errno, Message: @message', array(
+          '@errno' => xmlrpc_errno(),
+          '@message' => xmlrpc_error_msg(),
+      )));
     }
     else {
       drupal_set_message(
-        t('The XML-RPC server returned this response: <pre>@response</pre>',
-          array('@response' => print_r($result, TRUE)))
-      );
+        $this->t('The XML-RPC server returned this response: <pre>@response</pre>', array(
+          '@response' => print_r($result, TRUE),
+      )));
     }
   }
 

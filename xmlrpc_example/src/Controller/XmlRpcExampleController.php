@@ -8,6 +8,7 @@
 namespace Drupal\xmlrpc_example\Controller;
 
 use Drupal\Core\Controller\ControllerBase;
+use Drupal\Core\Url;
 use Drupal\xmlrpc_example\XmlRpcExampleTrait;
 
 /**
@@ -37,23 +38,23 @@ class XmlRpcExampleController extends ControllerBase {
     }
 
     // Process the results.
-    $build = array(
-      'basic' => array(
-        '#markup' => $this->t('This XML-RPC example presents code that shows <ul><li><a href="!server">XML-RPC server code</a></li><li><a href="!client">XML-RPC client code</a></li><li>and <a href="!alter">an example hook_xmlrpc_alter() call</a></li></ul>',
-          array(
-            '!server' => $this->url('xmlrpc_example.server'),
-            '!client' => $this->url('xmlrpc_example.client'),
-            '!alter' => $this->url('xmlrpc_example.alter'),
-          )
-        ),
-      ),
-      'method_array' => array(
+    $build = [
+      'basic' => [
+        '#theme' => 'item_list',
+        '#title' => $this->t('This XML-RPC example presents code that shows'),
+        '#items' => [
+          $this->l($this->t('XML-RPC server code'), Url::fromRoute('xmlrpc_example.server')),
+          $this->l($this->t('XML-RPC client code'), Url::fromRoute('xmlrpc_example.client')),
+          $this->l($this->t('An example hook_xmlrpc_alter() call'), Url::fromRoute('xmlrpc_example.alter')),
+        ],
+      ],
+      'method_array' => [
         '#theme' => 'item_list',
         '#title' => $this->t('These methods are supported by !server', array('!server' => check_url($server))),
         '#list_type' => 'ul',
         '#items' => $supported_methods,
-      ),
-    );
+      ],
+    ];
 
     return $build;
   }

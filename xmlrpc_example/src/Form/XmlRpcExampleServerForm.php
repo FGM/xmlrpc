@@ -48,27 +48,27 @@ class XmlRpcExampleServerForm extends ConfigFormBase {
     $config = $this->config('xmlrpc_example.server');
 
     $form['explanation'] = array(
-      '#markup' => '<div>' . t('This is the XML-RPC server configuration page.<br />Here you may define the maximum and minimum values for the addition or subtraction exposed services.<br />') . '</div>',
+      '#markup' => '<div>' . $this->t('This is the XML-RPC server configuration page.<br />Here you may define the maximum and minimum values for the addition or subtraction exposed services.<br />') . '</div>',
     );
     $form['min'] = array(
       '#type' => 'textfield',
-      '#title' => t('Enter the minimum value returned by the subtraction or addition methods'),
-      '#description' => t('If the result of the operation is lower than this value, a custom XML-RPC error will be returned: 10002.'),
+      '#title' => $this->t('Enter the minimum value returned by the subtraction or addition methods'),
+      '#description' => $this->t('If the result of the operation is lower than this value, a custom XML-RPC error will be returned: 10002.'),
       '#default_value' => $config->get('min'),
       '#size' => 5,
       '#required' => TRUE,
     );
     $form['max'] = array(
       '#type' => 'textfield',
-      '#title' => t('Enter the maximum value returned by sub or add methods'),
-      '#description' => t('if the result of the operation is bigger than this value, a custom XML-RPC error will be returned: 10001.'),
+      '#title' => $this->t('Enter the maximum value returned by sub or add methods'),
+      '#description' => $this->t('if the result of the operation is bigger than this value, a custom XML-RPC error will be returned: 10001.'),
       '#default_value' => $config->get('max'),
       '#size' => 5,
       '#required' => TRUE,
     );
     $form['info'] = array(
       '#type' => 'markup',
-      '#markup' => '<div>' . t('Use the <a href="!link">XML-RPC Client example form</a> to experiment.', array(
+      '#markup' => '<div>' . $this->t('Use the <a href="!link">XML-RPC Client example form</a> to experiment.', array(
         '!link' => $this->url('xmlrpc_example.client'),
       )),
     );
@@ -76,7 +76,7 @@ class XmlRpcExampleServerForm extends ConfigFormBase {
     if ($config->get('alter_enabled')) {
       $form['overridden'] = array(
         '#type' => 'markup',
-        '#markup' => '<div><strong>' . t('Just a note of warning: The <a href="!link">alter form</a> has been used to disable the limits, so you may want to turn that off if you do not want it.', array(
+        '#markup' => '<div><strong>' . $this->t('Just a note of warning: The <a href="!link">alter form</a> has been used to disable the limits, so you may want to turn that off if you do not want it.', array(
           '!link' => $this->url('xmlrpc_example.alter'),
         )) . '</strong></div>',
       );

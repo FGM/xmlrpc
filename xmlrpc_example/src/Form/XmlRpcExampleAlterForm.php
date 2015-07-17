@@ -43,16 +43,16 @@ class XmlRpcExampleAlterForm extends ConfigFormBase {
     $config = $this->config('xmlrpc_example.server');
 
     $form['explanation'] = array(
-      '#markup' => '<div>' . t('This is a configuration form to enable the alteration of XML-RPC methods using hook_xmlrpc_alter.<br />hook_xmlrpc_alter() can be used to alter the current defined methods by other modules. In this case as demonstration, we will overide current add and subtraction methods with others not being limited. Remember that this hook is optional and is not required to create XMLRPC services.<br />') . '</div>',
+      '#markup' => '<div>' . $this->t('This is a configuration form to enable the alteration of XML-RPC methods using hook_xmlrpc_alter.<br />hook_xmlrpc_alter() can be used to alter the current defined methods by other modules. In this case as demonstration, we will overide current add and subtraction methods with others not being limited. Remember that this hook is optional and is not required to create XMLRPC services.<br />') . '</div>',
     );
     $form['alter_enabled'] = array(
       '#type' => 'checkbox',
-      '#title' => t('Override current xmlrpc_example.add and xmlrpc_example.subtraction methods'),
-      '#description' => t('If this checkbox is enabled, the default methods will be replaced with custom methods that ignore the XML-RPC server maximum and minimum restrictions.'),
+      '#title' => $this->t('Override current xmlrpc_example.add and xmlrpc_example.subtraction methods'),
+      '#description' => $this->t('If this checkbox is enabled, the default methods will be replaced with custom methods that ignore the XML-RPC server maximum and minimum restrictions.'),
       '#default_value' => $config->get('alter_enabled'),
     );
     $form['info'] = array(
-      '#markup' => '<div>' . t('Use the <a href="!link">client submission form</a> to see the results of checking this checkbox', array(
+      '#markup' => '<div>' . $this->t('Use the <a href="!link">client submission form</a> to see the results of checking this checkbox', array(
         '!link' => $this->url('xmlrpc_example.client'),
       )) . '</div>',
     );
