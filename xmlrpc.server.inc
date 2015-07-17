@@ -135,10 +135,10 @@ function xmlrpc_server_error($error, $message = FALSE) {
  *   A Response object.
  */
 function xmlrpc_server_output($xml) {
-  $xml = '<?xml version="1.0"?>' . "\n" . $xml;
+  $xml = '<?xml version="1.0" encoding="utf-8" ?>' . "\n" . $xml;
   $headers = array(
     'Content-Length' => strlen($xml),
-    'Content-Type' => 'text/xml',
+    'Content-Type' => 'text/xml; charset=utf-8',
   );
   return new Response($xml, 200, $headers);
 }

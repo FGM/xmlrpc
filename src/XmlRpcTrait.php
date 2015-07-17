@@ -1,14 +1,15 @@
 <?php
 /**
  * @file
- * Contains XmlRpcControllerBase.php.
+ * Contains \Drupal\xmlrpc\XmlRpcTrait.
  */
 
-namespace Drupal\xmlrpc_example;
+namespace Drupal\xmlrpc;
 
 use Drupal\Core\Url;
 
-trait XmlRpcExampleTrait {
+trait XmlRpcTrait {
+
   /**
    * The XML-RPC server endpoint.
    *

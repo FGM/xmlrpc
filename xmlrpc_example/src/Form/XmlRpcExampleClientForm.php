@@ -17,7 +17,7 @@ namespace Drupal\xmlrpc_example\Form;
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Url;
-use Drupal\xmlrpc_example\XmlRpcExampleTrait;
+use Drupal\xmlrpc\XmlRpcTrait;
 
 /**
  * Form demonstrating XML-RPC client.
@@ -27,7 +27,7 @@ use Drupal\xmlrpc_example\XmlRpcExampleTrait;
  */
 class XmlRpcExampleClientForm extends FormBase {
 
-  use XmlRpcExampleTrait;
+  use XmlRpcTrait;
 
   /**
    * {@inheritdoc}

@@ -400,7 +400,7 @@ function xmlrpc_request($method, array $args) {
   $xmlrpc_request->method = $method;
   $xmlrpc_request->args = $args;
   $xmlrpc_request->xml = <<<EOD
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="utf-8" ?>
 <methodCall>
 <methodName>{$xmlrpc_request->method}</methodName>
 <params>
@@ -594,7 +594,7 @@ function _xmlrpc($url, array $args, array $headers = array()) {
   }
   $xmlrpc_request = xmlrpc_request($method, $args);
 
-  $headers['Content-Type'] = 'text/xml';
+  $headers['Content-Type'] = 'text/xml; charset=utf-8';
 
   try {
     $response = \Drupal::httpClient()->post($url, array(

@@ -9,15 +9,15 @@ namespace Drupal\xmlrpc_example\Controller;
 
 use Drupal\Component\Utility\UrlHelper;
 use Drupal\Core\Controller\ControllerBase;
-use Drupal\Core\Url;
-use Drupal\xmlrpc_example\XmlRpcExampleTrait;
+use Drupal\Core\Link;
+use Drupal\xmlrpc\XmlRpcTrait;
 
 /**
  * Controller methods for basic documentation pages in this module.
  */
 class XmlRpcExampleController extends ControllerBase {
 
-  use XmlRpcExampleTrait;
+  use XmlRpcTrait;
 
   /**
    * Constructs a page with info about the XML-RPC example.
@@ -44,9 +44,9 @@ class XmlRpcExampleController extends ControllerBase {
         '#theme' => 'item_list',
         '#title' => $this->t('This XML-RPC example presents code that shows'),
         '#items' => [
-          $this->l($this->t('XML-RPC server code'), Url::fromRoute('xmlrpc_example.server')),
-          $this->l($this->t('XML-RPC client code'), Url::fromRoute('xmlrpc_example.client')),
-          $this->l($this->t('An example hook_xmlrpc_alter() call'), Url::fromRoute('xmlrpc_example.alter')),
+          Link::createFromRoute($this->t('XML-RPC server code'), 'xmlrpc_example.server'),
+          Link::createFromRoute($this->t('XML-RPC client code'), 'xmlrpc_example.client'),
+          Link::createFromRoute($this->t('An example hook_xmlrpc_alter() call'), 'xmlrpc_example.alter'),
         ],
       ],
       'method_array' => [

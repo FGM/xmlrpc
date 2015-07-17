@@ -11,8 +11,7 @@
 namespace Drupal\xmlrpc_example\Tests;
 
 use Drupal\simpletest\WebTestBase;
-use Drupal\xmlrpc_example\XmlRpcExampleTrait;
-use Symfony\Component\Validator\Constraints\False;
+use Drupal\xmlrpc\XmlRpcTrait;
 
 /**
  * Test the XML-RPC examples.
@@ -21,7 +20,7 @@ use Symfony\Component\Validator\Constraints\False;
  */
 class XmlRpcExampleTest extends WebTestBase {
 
-  use XmlRpcExampleTrait;
+  use XmlRpcTrait;
 
   public static $modules = array('xmlrpc_example');
 
