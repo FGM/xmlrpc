@@ -90,8 +90,8 @@ class XmlRpcExampleClientForm extends FormBase {
     if ($config->get('alter_enabled')) {
       $form['overridden'] = array(
         '#type' => 'markup',
-        '#markup' => '<div><strong>' . $this->t('Just a note of warning: The <a href="!link">alter form</a> has been used to disable the limits, so you may want to turn that off if you do not want it.', array(
-          '!link' => $this->url('xmlrpc_example.alter'),
+        '#markup' => '<div><strong>' . $this->t('Just a note of warning: The <a href=":url">alter form</a> has been used to disable the limits, so you may want to turn that off if you do not want it.', array(
+          ':url' => Url::fromRoute('xmlrpc_example.alter')->toString(),
         )) . '</strong></div>',
       );
     }

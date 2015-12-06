@@ -7,6 +7,7 @@
 
 namespace Drupal\xmlrpc_example\Controller;
 
+use Drupal\Component\Utility\UrlHelper;
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\Core\Url;
 use Drupal\xmlrpc_example\XmlRpcExampleTrait;
@@ -24,7 +25,7 @@ class XmlRpcExampleController extends ControllerBase {
    * Our router maps this method to the path 'examples/xmlrpc'.
    */
   public function info() {
-    // Make the xmlrpc request.
+    // Make the XML-RPC request.
     $server = $this->getEndpoint();
     $options = array('system.listMethods' => array());
     $supported_methods = xmlrpc($server, $options);
@@ -50,7 +51,9 @@ class XmlRpcExampleController extends ControllerBase {
       ],
       'method_array' => [
         '#theme' => 'item_list',
-        '#title' => $this->t('These methods are supported by !server', array('!server' => check_url($server))),
+        '#title' => $this->t('These methods are supported by :url', [
+          ':url' => UrlHelper::stripDangerousProtocols($server),
+        ]),
         '#list_type' => 'ul',
         '#items' => $supported_methods,
       ],

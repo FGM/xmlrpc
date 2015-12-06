@@ -15,6 +15,7 @@ namespace Drupal\xmlrpc_example\Form;
 
 use Drupal\Core\Form\ConfigFormBase;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Url;
 
 
 /**
@@ -68,16 +69,16 @@ class XmlRpcExampleServerForm extends ConfigFormBase {
     );
     $form['info'] = array(
       '#type' => 'markup',
-      '#markup' => '<div>' . $this->t('Use the <a href="!link">XML-RPC Client example form</a> to experiment.', array(
-        '!link' => $this->url('xmlrpc_example.client'),
+      '#markup' => '<div>' . $this->t('Use the <a href=":url">XML-RPC Client example form</a> to experiment.', array(
+        ':url' => Url::fromRoute('xmlrpc_example.client')->toString(),
       )),
     );
 
     if ($config->get('alter_enabled')) {
       $form['overridden'] = array(
         '#type' => 'markup',
-        '#markup' => '<div><strong>' . $this->t('Just a note of warning: The <a href="!link">alter form</a> has been used to disable the limits, so you may want to turn that off if you do not want it.', array(
-          '!link' => $this->url('xmlrpc_example.alter'),
+        '#markup' => '<div><strong>' . $this->t('Just a note of warning: The <a href=":url">alter form</a> has been used to disable the limits, so you may want to turn that off if you do not want it.', array(
+          ':url' => Url::fromRoute('xmlrpc_example.alter')->toString(),
         )) . '</strong></div>',
       );
     }

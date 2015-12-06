@@ -115,7 +115,7 @@ class XmlRpcBasicTest extends XmlRpcTestBase {
    * @link http://xmlrpc-epi.sourceforge.net/specs/rfc.fault_codes.php
    */
   public function testInvalidServer() {
-    $invalid_endpoint = 'http://example.invalid/xmlrpc.php';
+    $invalid_endpoint = 'http://example.invalid/xmlrpc';
     $result = xmlrpc($invalid_endpoint, ['system.listMethods' => []]);
     $this->verboseResult($result);
     $this->assertFalse($result, "Calling an unknown host returns an error condition");

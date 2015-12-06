@@ -563,7 +563,7 @@ function xmlrpc_base64_get_xml($xmlrpc_base64) {
  * Performs one or more XML-RPC requests.
  *
  * @param string $url
- *   Absolute URL of the XML-RPC endpoint, e.g. http://example.com/xmlrpc.php .
+ *   Absolute URL of the XML-RPC endpoint, e.g. http://example.com/xmlrpc .
  * @param array $args
  *   An associative array whose keys are the methods to call and whose values
  *   are the arguments to pass to the respective method. If multiple methods

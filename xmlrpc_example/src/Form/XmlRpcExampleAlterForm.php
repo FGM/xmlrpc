@@ -14,6 +14,7 @@ namespace Drupal\xmlrpc_example\Form;
 
 use Drupal\Core\Form\ConfigFormBase;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Url;
 
 /**
  * Presents a form to enable/disable the code implemented in hook_xmlrpc_alter.
@@ -52,8 +53,8 @@ class XmlRpcExampleAlterForm extends ConfigFormBase {
       '#default_value' => $config->get('alter_enabled'),
     );
     $form['info'] = array(
-      '#markup' => '<div>' . $this->t('Use the <a href="!link">client submission form</a> to see the results of checking this checkbox', array(
-        '!link' => $this->url('xmlrpc_example.client'),
+      '#markup' => '<div>' . $this->t('Use the <a href=":url">client submission form</a> to see the results of checking this checkbox', array(
+        ':url' => Url::fromRoute('xmlrpc_example.client')->toString(),
       )) . '</div>',
     );
 
