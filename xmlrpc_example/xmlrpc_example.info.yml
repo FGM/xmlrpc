@@ -1,8 +1,0 @@
-name: XMLRPC example
-type: module
-description: 'An example of how to implement client and server communications using XML-RPC.'
-package: Example modules
-core: 8.x
-
-dependencies:
-  - xmlrpc
