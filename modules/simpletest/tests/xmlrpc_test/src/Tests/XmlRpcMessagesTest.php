@@ -13,6 +13,9 @@ namespace Drupal\xmlrpc_test\Tests;
  * @group xmlrpc
  */
 class XmlRpcMessagesTest extends XmlRpcTestBase {
+  /**
+   * {@inheritdoc}
+   */
   public static function getInfo() {
     return array(
       'name'  => 'XML-RPC message and alteration',
@@ -21,7 +24,10 @@ class XmlRpcMessagesTest extends XmlRpcTestBase {
     );
   }
 
-  function setUp() {
+  /**
+   * {@inheritdoc}
+   */
+  public function setUp() {
     parent::setUp('xmlrpc_test');
   }
 

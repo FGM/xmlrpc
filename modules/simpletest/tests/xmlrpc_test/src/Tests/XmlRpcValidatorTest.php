@@ -16,6 +16,9 @@ use Drupal\simpletest\WebTestBase;
  * specification</a>.
  */
 class XmlRpcValidatorTest extends XmlRpcTestBase {
+  /**
+   * {@inheritdoc}
+   */
   public static function getInfo() {
     return array(
       'name' => 'XML-RPC validator',
@@ -24,7 +27,10 @@ class XmlRpcValidatorTest extends XmlRpcTestBase {
     );
   }
 
-  function setUp() {
+  /**
+   * {@inheritdoc}
+   */
+  public function setUp() {
     parent::setUp('xmlrpc_test');
   }
 
@@ -77,11 +83,11 @@ class XmlRpcValidatorTest extends XmlRpcTestBase {
     $int_5     = mt_rand(-100, 100);
     $bool_5    = (($int_5 % 2) == 0);
     $string_5  = $this->randomName();
-    $double_5  = (double)(mt_rand(-1000, 1000) / 100);
+    $double_5  = (double) (mt_rand(-1000, 1000) / 100);
     $time_5    = REQUEST_TIME;
     $base64_5  = $this->randomName(100);
     $l_res_5 = xmlrpc_test_many_types_test($int_5, $bool_5, $string_5, $double_5, xmlrpc_date($time_5), $base64_5);
-    // See http://drupal.org/node/37766 why this currently fails
+    // See http://drupal.org/node/37766 why this currently fails.
     $l_res_5[5] = $l_res_5[5]->data;
     $r_res_5 = $this->xmlRpcGet(array(
       'validator1.manyTypesTest' => array(

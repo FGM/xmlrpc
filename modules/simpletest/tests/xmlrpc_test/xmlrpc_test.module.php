@@ -206,7 +206,7 @@ function xmlrpc_test_message_sized_in_kb($size) {
   $word = 'abcdefg';
 
   // Create a ~1KB sized struct.
-  for ($i = 0 ; $i < 128; $i++) {
+  for ($i = 0; $i < 128; $i++) {
     $line['word_' . $i] = $word;
   }
 

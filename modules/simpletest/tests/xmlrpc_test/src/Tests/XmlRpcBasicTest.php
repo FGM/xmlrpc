@@ -12,6 +12,9 @@ namespace Drupal\xmlrpc_test\Tests;
  */
 class XmlRpcBasicTest extends XmlRpcTestBase {
 
+  /**
+   * {@inheritdoc}
+   */
   public static function getInfo() {
     return array(
       'name'  => 'XML-RPC basic',
